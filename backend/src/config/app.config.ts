@@ -9,8 +9,12 @@ export const config = {
   corsOrigin: process.env.CORS_ORIGIN || "http://localhost:5173",
 
   jwt: {
-    secret: process.env.JWT_SECRET || "your-super-secret-key",
+    secret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  },
+
+  bcrypt: {
+    secret: process.env.BCRYPT_SECRET,
   },
 
   database: {
