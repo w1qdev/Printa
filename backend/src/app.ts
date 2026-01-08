@@ -3,6 +3,7 @@ import cors from "cors";
 import express, { Express, Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import apiRouter from "./api/routes/index";
 import { config } from "./config/app.config";
 
 // Routes (создадим позже)
@@ -43,6 +44,10 @@ export function createApp(): Express {
     })
   );
 
+  // Body parsing
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 минут
     max: 100, // 100 запросов с одного IP
@@ -52,6 +57,7 @@ export function createApp(): Express {
   });
 
   app.use("/api", limiter);
+  app.use("/api", apiRouter);
 
   const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -59,12 +65,8 @@ export function createApp(): Express {
     skipSuccessfulRequests: true,
   });
 
-  app.use("/api/auth/login", authLimiter);
-  app.use("/api/auth/register", authLimiter);
-
-  // Body parsing
-  app.use(express.json({ limit: "10mb" }));
-  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+  // app.use("/api/auth/login", authLimiter);
+  // app.use("/api/auth/register", authLimiter);
 
   // Compression
   app.use(compression());

@@ -15,17 +15,17 @@ datasource db {
 
 // Модель пользователя
 model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  password      String
-  role          UserRole  @default(CUSTOMER)
-  firstName     String?
-  lastName      String?
-  phone         String?
+  id             String    @id @default(uuid())
+  email          String    @unique
+  password       String
+  role           UserRole  @default(CUSTOMER)
+  firstName      String?
+  lastName       String?
+  phone          String?
   telegramChatId String?
   
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   // Связи
   ordersAsCustomer Order[] @relation("CustomerOrders")
