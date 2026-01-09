@@ -67,4 +67,27 @@ export class AuthService {
 
     return userData;
   }
+
+  // async logout(email: string) {
+  //   const user = await this.userService.findUserByEmail({
+  //     email: email,
+  //     selectRoles: acceptedUserSelectData,
+  //   });
+
+  //   if (!user) {
+  //     return {
+  //       message: "User does not exists",
+  //     };
+  //   }
+
+  //   const result = await prisma.user.update({
+  //     where: { email: email },
+  //     data: { token: null },
+  //     select: acceptedUserSelectData,
+  //   });
+
+  //   if (result) {
+  //     return result;
+  //   }
+  // }
 }

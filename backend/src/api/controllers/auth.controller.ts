@@ -59,4 +59,30 @@ export class AuthController {
       return res.status(500).json(responseResult);
     }
   }
+
+  async logout(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+
+      const result = await this.authService.logout(email);
+
+      const responseResult = {
+        status: "ok",
+        data: result,
+      };
+
+      return res.status(200).json(responseResult);
+    } catch (err) {
+      logger.error("Error with user logout");
+
+      const responseResult = {
+        status: "error",
+        data: {
+          message: "some internal error",
+        },
+      };
+
+      return res.status(500).json(responseResult);
+    }
+  }
 }

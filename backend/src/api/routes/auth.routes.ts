@@ -11,4 +11,7 @@ router.post("/register", validateAuthPayload, authController.register);
 // POST /api/auth/login
 router.post("/login", validateAuthPayload, authController.login);
 
+// GET /api/auth/logout
+router.get("/logout", authController.logout);
+
 export default router;
