@@ -37,3 +37,8 @@ export type OrderImage = Prisma.OrderImageModel
  * 
  */
 export type Payment = Prisma.PaymentModel
+/**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel

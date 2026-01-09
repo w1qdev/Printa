@@ -23,14 +23,14 @@ model User {
   lastName       String?
   phone          String?
   telegramChatId String?
-  
+
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
   // Связи
   ordersAsCustomer Order[] @relation("CustomerOrders")
   ordersAsExecutor Order[] @relation("ExecutorOrders")
-  
+
   @@map("users")
 }
 
@@ -47,20 +47,20 @@ model Order {
   description   String
   budget        Decimal     @db.Decimal(10, 2)
   status        OrderStatus @default(DRAFT)
-  
+
   customerId    String
   customer      User        @relation("CustomerOrders", fields: [customerId], references: [id])
-  
+
   executorId    String?
   executor      User?       @relation("ExecutorOrders", fields: [executorId], references: [id])
-  
+
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  
+
   // Связи
   images        OrderImage[]
   payments      Payment[]
-  
+
   @@map("orders")
 }
 
@@ -80,16 +80,16 @@ model OrderImage {
   id           String   @id @default(uuid())
   orderId      String
   order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  
+
   thumbnailUrl String
   mediumUrl    String
   fullUrl      String
-  
+
   width        Int
   height       Int
-  
+
   createdAt    DateTime @default(now())
-  
+
   @@map("order_images")
 }
 
@@ -98,19 +98,19 @@ model Payment {
   id              String        @id @default(uuid())
   orderId         String
   order           Order         @relation(fields: [orderId], references: [id])
-  
+
   amount          Decimal       @db.Decimal(10, 2)
   currency        String        @default("RUB")
   status          PaymentStatus @default(PENDING)
   provider        String        @default("yukassa")
-  
+
   // Данные от провайдера
   providerPaymentId String?     @unique
   providerData      Json?
-  
+
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-  
+
   @@map("payments")
 }
 
@@ -121,4 +121,18 @@ enum PaymentStatus {
   FAILED
   CANCELLED
   REFUNDED
+}
+
+// Product
+model Product {
+  id           String   @id @default(uuid())
+  name         String
+  description  String?
+  price        Decimal  @db.Decimal(10, 2)
+  currency     String   @default("RUB")
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("products")
 }

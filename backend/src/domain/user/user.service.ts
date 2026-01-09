@@ -9,7 +9,10 @@ import { acceptedUserSelectData } from "../auth/auth.types";
 export class UserService {
   private hasher = new Hasher();
 
-  async findUserByEmail({ email, selectRoles }: FindUserByEmailParamsTypes) {
+  async findUserByEmail({
+    email,
+    selectRoles = acceptedUserSelectData,
+  }: FindUserByEmailParamsTypes) {
     const user = await prisma.user.findFirst({
       where: {
         email,
@@ -58,11 +61,15 @@ export class UserService {
       },
     });
 
-    return user;
+    const { password, telegramChatId, ...result } = user;
+
+    return result;
   }
 
   async getAllUsers() {
-    const allUsers = await prisma.user.findMany({});
+    const allUsers = await prisma.user.findMany({
+      select: acceptedUserSelectData,
+    });
 
     return allUsers;
   }

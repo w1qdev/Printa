@@ -72,7 +72,7 @@ export class UserController {
 
       return res.status(200).json(responseResult);
     } catch (err) {
-      logger.error("Error with getting user by email");
+      logger.error("Error with getting all users", err);
 
       const responseResult = {
         status: "error",

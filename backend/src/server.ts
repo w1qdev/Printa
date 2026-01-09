@@ -5,14 +5,11 @@ import { logger } from "./shared/utils/logger.js";
 
 async function bootstrap() {
   try {
-    // Проверка подключения к БД
     await prisma.$connect();
     logger.info("✅ Database connected");
 
-    // Создание Express приложения
     const app = createApp();
 
-    // Запуск сервера
     const server = app.listen(config.port, () => {
       logger.info(`🚀 Server running on http://localhost:${config.port}`);
       logger.info(`📝 Environment: ${config.env}`);
@@ -26,18 +23,11 @@ async function bootstrap() {
       server.close(async () => {
         logger.info("HTTP server closed");
 
-        // Закрываем соединение с БД
-        // await prisma.$disconnect();
+        await prisma.$disconnect();
         logger.info("Database disconnected");
 
         process.exit(0);
       });
-
-      // Если за 10 секунд не успели закрыться — форсируем
-      setTimeout(() => {
-        logger.error("Forced shutdown after timeout");
-        process.exit(1);
-      }, 10000);
     };
 
     // Обработка сигналов завершения
@@ -60,5 +50,4 @@ async function bootstrap() {
   }
 }
 
-// Запуск приложения
 bootstrap();
