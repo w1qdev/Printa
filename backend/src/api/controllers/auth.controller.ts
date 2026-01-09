@@ -5,11 +5,11 @@ import { Request, Response } from "express";
 export class AuthController {
   private authService = new AuthService();
 
-  register = async (req: Request, res: Response) => {
+  async register(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
 
-      const result = await this.authService.createUser({
+      const result = await this.authService.register({
         email,
         password,
       });
@@ -32,7 +32,31 @@ export class AuthController {
 
       return res.status(500).json(responseResult);
     }
-  };
+  }
 
-  login = async () => {};
+  async login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+
+      const result = await this.authService.login(email, password);
+
+      const responseResult = {
+        status: "ok",
+        data: result,
+      };
+
+      return res.status(200).json(responseResult);
+    } catch (err) {
+      logger.error("Error with user authentication");
+
+      const responseResult = {
+        status: "error",
+        data: {
+          message: "some internal error",
+        },
+      };
+
+      return res.status(500).json(responseResult);
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import { config } from "@/config/app.config";
+import { PrivateResultType } from "@prisma/client/runtime/client";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 
@@ -20,6 +21,12 @@ export class Hasher {
 
   async hash(hashString: string) {
     const result = await this.bcrypt.hash(hashString, this.saltRounds);
+
+    return result;
+  }
+
+  async compare(inComeString: string, hashedString: string) {
+    const result = await this.bcrypt.compare(inComeString, hashedString);
 
     return result;
   }

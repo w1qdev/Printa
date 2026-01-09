@@ -37,7 +37,7 @@ export function createApp(): Express {
   // CORS
   app.use(
     cors({
-      origin: config.corsOrigin, // Только разрешённые домены!
+      origin: config.corsOrigin,
       credentials: true,
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],

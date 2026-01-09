@@ -1,18 +1,20 @@
 import { Hasher } from "@/shared/utils/hasher";
 import { prisma } from "../../prisma";
-import { createUserParameters } from "./auth.types";
+import { CreateUserParamsTypes } from "./auth.types";
+import { acceptedUserSelectData } from "@/domain/auth/auth.types";
+import { UserService } from "../user/user.service";
 
 export class AuthService {
   private hasher = new Hasher();
+  private userService = new UserService();
 
-  async createUser(userData: createUserParameters) {
-    const isUserExists = await prisma.user.findFirst({
-      where: {
-        email: userData.email,
-      },
+  async register(userData: CreateUserParamsTypes) {
+    const user = await this.userService.findUserByEmail({
+      email: userData.email,
+      selectRoles: acceptedUserSelectData,
     });
 
-    if (isUserExists) {
+    if (user) {
       return {
         message: "This user already exists",
       };
@@ -30,18 +32,39 @@ export class AuthService {
         email: userData.email,
         password: hasherPassword,
       },
-      select: {
-        id: true,
-        email: true,
-        role: true,
-        firstName: true,
-        lastName: true,
-        phone: true,
-      },
+      select: acceptedUserSelectData,
     });
 
     if (result) {
       return result;
     }
+  }
+
+  async login(email: string, inComePassword: string) {
+    const user = await this.userService.findUserByEmail({
+      email: email,
+      selectRoles: { ...acceptedUserSelectData, password: true },
+    });
+
+    if (!user) {
+      return {
+        message: "User does not exists",
+      };
+    }
+
+    const comparePasswords = await this.hasher.compare(
+      inComePassword,
+      user.password,
+    );
+
+    if (!comparePasswords) {
+      return {
+        message: "Passed password is not correct",
+      };
+    }
+
+    const { password, ...userData } = user;
+
+    return userData;
   }
 }
