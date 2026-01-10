@@ -123,8 +123,21 @@ export class ProductController {
       return res.status(500).json(responseResult);
     }
   }
+
   async deleteProduct(req: Request, res: Response) {
     try {
+      const { productId } = req.params;
+
+      await this.productService.deleteProduct(productId);
+
+      const responseResult = {
+        status: "ok",
+        data: {
+          message: "Product deleted successfully",
+        },
+      };
+
+      return res.status(200).json(responseResult);
     } catch (err) {
       logger.error("Error with deleting product");
 

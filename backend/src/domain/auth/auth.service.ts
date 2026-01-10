@@ -3,10 +3,13 @@ import { prisma } from "../../prisma";
 import { CreateUserParamsTypes } from "./auth.types";
 import { acceptedUserSelectData } from "@/domain/auth/auth.types";
 import { UserService } from "../user/user.service";
+import { JWTService } from "@/domain/jwt/jwt.service";
+import { v4 as uuidv4 } from "uuid";
 
 export class AuthService {
   private hasher = new Hasher();
   private userService = new UserService();
+  private jwtService = new JWTService();
 
   async register(userData: CreateUserParamsTypes) {
     const user = await this.userService.findUserByEmail({
@@ -27,16 +30,26 @@ export class AuthService {
       };
     }
 
-    const result = await prisma.user.create({
+    const userId = uuidv4();
+    const tokens = this.jwtService.generateTokens({ userId: userId });
+
+    const newUser = await prisma.user.create({
       data: {
+        id: userId,
         email: userData.email,
         password: hasherPassword,
+        refreshTokens: {
+          create: {
+            hashedToken: tokens.refreshToken,
+            userId: userId,
+          },
+        },
       },
       select: acceptedUserSelectData,
     });
 
-    if (result) {
-      return result;
+    if (newUser) {
+      return newUser;
     }
   }
 

@@ -19,6 +19,7 @@ model User {
   email          String    @unique
   password       String
   role           UserRole  @default(CUSTOMER)
+  refreshTokens  RefreshToken[]
   firstName      String?
   lastName       String?
   phone          String?
@@ -32,6 +33,15 @@ model User {
   ordersAsExecutor Order[] @relation("ExecutorOrders")
 
   @@map("users")
+}
+
+model RefreshToken {
+  id          String   @id @default(uuid())
+  hashedToken String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum UserRole {

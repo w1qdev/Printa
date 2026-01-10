@@ -222,6 +222,7 @@ export type UserWhereInput = {
   telegramChatId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  refreshTokens?: Prisma.RefreshTokenListRelationFilter
   ordersAsCustomer?: Prisma.OrderListRelationFilter
   ordersAsExecutor?: Prisma.OrderListRelationFilter
 }
@@ -237,6 +238,7 @@ export type UserOrderByWithRelationInput = {
   telegramChatId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
   ordersAsCustomer?: Prisma.OrderOrderByRelationAggregateInput
   ordersAsExecutor?: Prisma.OrderOrderByRelationAggregateInput
 }
@@ -255,6 +257,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   telegramChatId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  refreshTokens?: Prisma.RefreshTokenListRelationFilter
   ordersAsCustomer?: Prisma.OrderListRelationFilter
   ordersAsExecutor?: Prisma.OrderListRelationFilter
 }, "id" | "email">
@@ -302,6 +305,7 @@ export type UserCreateInput = {
   telegramChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   ordersAsCustomer?: Prisma.OrderCreateNestedManyWithoutCustomerInput
   ordersAsExecutor?: Prisma.OrderCreateNestedManyWithoutExecutorInput
 }
@@ -317,6 +321,7 @@ export type UserUncheckedCreateInput = {
   telegramChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   ordersAsCustomer?: Prisma.OrderUncheckedCreateNestedManyWithoutCustomerInput
   ordersAsExecutor?: Prisma.OrderUncheckedCreateNestedManyWithoutExecutorInput
 }
@@ -332,6 +337,7 @@ export type UserUpdateInput = {
   telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   ordersAsCustomer?: Prisma.OrderUpdateManyWithoutCustomerNestedInput
   ordersAsExecutor?: Prisma.OrderUpdateManyWithoutExecutorNestedInput
 }
@@ -347,6 +353,7 @@ export type UserUncheckedUpdateInput = {
   telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   ordersAsCustomer?: Prisma.OrderUncheckedUpdateManyWithoutCustomerNestedInput
   ordersAsExecutor?: Prisma.OrderUncheckedUpdateManyWithoutExecutorNestedInput
 }
@@ -455,6 +462,20 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type UserCreateNestedOneWithoutRefreshTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRefreshTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokensInput
+  upsert?: Prisma.UserUpsertWithoutRefreshTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRefreshTokensInput, Prisma.UserUpdateWithoutRefreshTokensInput>, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>
+}
+
 export type UserCreateNestedOneWithoutOrdersAsCustomerInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutOrdersAsCustomerInput, Prisma.UserUncheckedCreateWithoutOrdersAsCustomerInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrdersAsCustomerInput
@@ -485,6 +506,82 @@ export type UserUpdateOneWithoutOrdersAsExecutorNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrdersAsExecutorInput, Prisma.UserUpdateWithoutOrdersAsExecutorInput>, Prisma.UserUncheckedUpdateWithoutOrdersAsExecutorInput>
 }
 
+export type UserCreateWithoutRefreshTokensInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  phone?: string | null
+  telegramChatId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ordersAsCustomer?: Prisma.OrderCreateNestedManyWithoutCustomerInput
+  ordersAsExecutor?: Prisma.OrderCreateNestedManyWithoutExecutorInput
+}
+
+export type UserUncheckedCreateWithoutRefreshTokensInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  phone?: string | null
+  telegramChatId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ordersAsCustomer?: Prisma.OrderUncheckedCreateNestedManyWithoutCustomerInput
+  ordersAsExecutor?: Prisma.OrderUncheckedCreateNestedManyWithoutExecutorInput
+}
+
+export type UserCreateOrConnectWithoutRefreshTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+}
+
+export type UserUpsertWithoutRefreshTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokensInput, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRefreshTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokensInput, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>
+}
+
+export type UserUpdateWithoutRefreshTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordersAsCustomer?: Prisma.OrderUpdateManyWithoutCustomerNestedInput
+  ordersAsExecutor?: Prisma.OrderUpdateManyWithoutExecutorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRefreshTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordersAsCustomer?: Prisma.OrderUncheckedUpdateManyWithoutCustomerNestedInput
+  ordersAsExecutor?: Prisma.OrderUncheckedUpdateManyWithoutExecutorNestedInput
+}
+
 export type UserCreateWithoutOrdersAsCustomerInput = {
   id?: string
   email: string
@@ -496,6 +593,7 @@ export type UserCreateWithoutOrdersAsCustomerInput = {
   telegramChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   ordersAsExecutor?: Prisma.OrderCreateNestedManyWithoutExecutorInput
 }
 
@@ -510,6 +608,7 @@ export type UserUncheckedCreateWithoutOrdersAsCustomerInput = {
   telegramChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   ordersAsExecutor?: Prisma.OrderUncheckedCreateNestedManyWithoutExecutorInput
 }
 
@@ -529,6 +628,7 @@ export type UserCreateWithoutOrdersAsExecutorInput = {
   telegramChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   ordersAsCustomer?: Prisma.OrderCreateNestedManyWithoutCustomerInput
 }
 
@@ -543,6 +643,7 @@ export type UserUncheckedCreateWithoutOrdersAsExecutorInput = {
   telegramChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   ordersAsCustomer?: Prisma.OrderUncheckedCreateNestedManyWithoutCustomerInput
 }
 
@@ -573,6 +674,7 @@ export type UserUpdateWithoutOrdersAsCustomerInput = {
   telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   ordersAsExecutor?: Prisma.OrderUpdateManyWithoutExecutorNestedInput
 }
 
@@ -587,6 +689,7 @@ export type UserUncheckedUpdateWithoutOrdersAsCustomerInput = {
   telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   ordersAsExecutor?: Prisma.OrderUncheckedUpdateManyWithoutExecutorNestedInput
 }
 
@@ -612,6 +715,7 @@ export type UserUpdateWithoutOrdersAsExecutorInput = {
   telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   ordersAsCustomer?: Prisma.OrderUpdateManyWithoutCustomerNestedInput
 }
 
@@ -626,6 +730,7 @@ export type UserUncheckedUpdateWithoutOrdersAsExecutorInput = {
   telegramChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   ordersAsCustomer?: Prisma.OrderUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
@@ -635,11 +740,13 @@ export type UserUncheckedUpdateWithoutOrdersAsExecutorInput = {
  */
 
 export type UserCountOutputType = {
+  refreshTokens: number
   ordersAsCustomer: number
   ordersAsExecutor: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
   ordersAsCustomer?: boolean | UserCountOutputTypeCountOrdersAsCustomerArgs
   ordersAsExecutor?: boolean | UserCountOutputTypeCountOrdersAsExecutorArgs
 }
@@ -652,6 +759,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RefreshTokenWhereInput
 }
 
 /**
@@ -680,6 +794,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   telegramChatId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   ordersAsCustomer?: boolean | Prisma.User$ordersAsCustomerArgs<ExtArgs>
   ordersAsExecutor?: boolean | Prisma.User$ordersAsExecutorArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -726,6 +841,7 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "role" | "firstName" | "lastName" | "phone" | "telegramChatId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   ordersAsCustomer?: boolean | Prisma.User$ordersAsCustomerArgs<ExtArgs>
   ordersAsExecutor?: boolean | Prisma.User$ordersAsExecutorArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -736,6 +852,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
     ordersAsCustomer: Prisma.$OrderPayload<ExtArgs>[]
     ordersAsExecutor: Prisma.$OrderPayload<ExtArgs>[]
   }
@@ -1144,6 +1261,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ordersAsCustomer<T extends Prisma.User$ordersAsCustomerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersAsCustomerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ordersAsExecutor<T extends Prisma.User$ordersAsExecutorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersAsExecutorArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1570,6 +1688,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.refreshTokens
+ */
+export type User$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RefreshToken
+   */
+  select?: Prisma.RefreshTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RefreshToken
+   */
+  omit?: Prisma.RefreshTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RefreshTokenInclude<ExtArgs> | null
+  where?: Prisma.RefreshTokenWhereInput
+  orderBy?: Prisma.RefreshTokenOrderByWithRelationInput | Prisma.RefreshTokenOrderByWithRelationInput[]
+  cursor?: Prisma.RefreshTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RefreshTokenScalarFieldEnum | Prisma.RefreshTokenScalarFieldEnum[]
 }
 
 /**
