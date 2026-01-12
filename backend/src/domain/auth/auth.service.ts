@@ -41,15 +41,20 @@ export class AuthService {
         refreshTokens: {
           create: {
             hashedToken: tokens.refreshToken,
-            userId: userId,
           },
         },
       },
-      select: acceptedUserSelectData,
+      select: { ...acceptedUserSelectData },
     });
 
-    if (newUser) {
-      return newUser;
+    const result = {
+      ...newUser,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+    };
+
+    if (result) {
+      return result;
     }
   }
 

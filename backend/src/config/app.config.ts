@@ -11,7 +11,7 @@ export const config = {
   jwt: {
     accessSecret: process.env.JWT_ACCESS_SECRET,
     refreshSecret: process.env.JWT_REFRESH_SECRET,
-    expiresAccessIn: process.env.JWT_EXPIRES_IN || "10m",
+    expiresAccessIn: process.env.JWT_ACCESS_EXPIRES_IN || "10m",
     expiresRefreshIn: process.env.JWT_REFRESH_EXPIRES_IN || "2m",
   },
 

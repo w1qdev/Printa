@@ -21,7 +21,7 @@ export class AuthController {
 
       return res.status(200).json(responseResult);
     } catch (err) {
-      logger.error("Error with creating a new user");
+      logger.error("Error with creating a new user", err);
 
       const responseResult = {
         status: "error",
@@ -47,7 +47,7 @@ export class AuthController {
 
       return res.status(200).json(responseResult);
     } catch (err) {
-      logger.error("Error with user authentication");
+      logger.error("Error with user authentication", err);
 
       const responseResult = {
         status: "error",
@@ -73,7 +73,7 @@ export class AuthController {
 
       return res.status(200).json(responseResult);
     } catch (err) {
-      logger.error("Error with user logout");
+      logger.error("Error with user logout", err);
 
       const responseResult = {
         status: "error",
