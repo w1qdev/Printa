@@ -6,30 +6,17 @@ export class FileController {
 
   async uploadFiles(req: Request, res: Response) {
     try {
-      const { userId } = req.body;
-      const files = req.files;
+      const userId = req.body.userId as string;
+      const files = req.files as Express.Multer.File[];
 
-      console.log(files);
-
-      const uploadedFiles = await Promise.all(
-        files.map(async (file: Express.Multer.File) => {
-          const { originalname, mimetype, size, buffer } = file;
-
-          const filePath = await this.fileService.uploadFiles({
-            userId,
-            fileName: originalname,
-            fileMimeType: mimetype,
-            fileSize: size,
-            fileBuffer: buffer,
-          });
-
-          return { originalname, mimetype, size, filePath };
-        }),
-      );
+      const movedFiles = await this.fileService.uploadFiles({
+        userId,
+        files,
+      });
 
       res.status(200).json({
         message: "Файлы успешно загружены",
-        files: uploadedFiles,
+        files: movedFiles,
       });
     } catch (error) {
       console.error("Ошибка при загрузке файлов:", error);

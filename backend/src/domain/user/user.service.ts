@@ -4,7 +4,8 @@ import {
   FindUserByEmailParamsTypes,
   RefreshPasswordParamsTypes,
 } from "./user.types";
-import { acceptedUserSelectData } from "../auth/auth.types";
+import { acceptedUserSelectData } from "../../shared/constants/acceptedUserSelectData";
+import { AcceptedUserSelectData } from "../auth/auth.types";
 
 export class UserService {
   private hasher = new Hasher();
@@ -12,13 +13,17 @@ export class UserService {
   async findUserByEmail({
     email,
     selectRoles = acceptedUserSelectData,
-  }: FindUserByEmailParamsTypes) {
+  }: FindUserByEmailParamsTypes<AcceptedUserSelectData>) {
     const user = await prisma.user.findFirst({
       where: {
         email,
       },
       select: selectRoles,
     });
+
+    if (!user) {
+      return null;
+    }
 
     return user;
   }

@@ -1,6 +1,7 @@
 import { AuthService } from "@/domain/auth/auth.service";
 import { logger } from "@/shared/utils/logger";
 import { Request, Response } from "express";
+import { RegisterUserResult } from "../../domain/auth/auth.types";
 
 export class AuthController {
   private authService = new AuthService();
@@ -18,6 +19,14 @@ export class AuthController {
         status: "ok",
         data: result,
       };
+
+      if (result && "refreshToken" in result) {
+        res.cookie("refreshToken", result.refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+        });
+      }
 
       return res.status(200).json(responseResult);
     } catch (err) {
@@ -60,29 +69,29 @@ export class AuthController {
     }
   }
 
-  async logout(req: Request, res: Response) {
-    try {
-      const { email } = req.body;
+  // async logout(req: Request, res: Response) {
+  //   try {
+  //     const { email } = req.body;
 
-      const result = await this.authService.logout(email);
+  //     const result = await this.authService.logout(email);
 
-      const responseResult = {
-        status: "ok",
-        data: result,
-      };
+  //     const responseResult = {
+  //       status: "ok",
+  //       data: result,
+  //     };
 
-      return res.status(200).json(responseResult);
-    } catch (err) {
-      logger.error("Error with user logout", err);
+  //     return res.status(200).json(responseResult);
+  //   } catch (err) {
+  //     logger.error("Error with user logout", err);
 
-      const responseResult = {
-        status: "error",
-        data: {
-          message: "some internal error",
-        },
-      };
+  //     const responseResult = {
+  //       status: "error",
+  //       data: {
+  //         message: "some internal error",
+  //       },
+  //     };
 
-      return res.status(500).json(responseResult);
-    }
-  }
+  //     return res.status(500).json(responseResult);
+  //   }
+  // }
 }

@@ -39,7 +39,7 @@ export class ProductController {
 
   async getProduct(req: Request, res: Response) {
     try {
-      const { productId } = req.params;
+      const productId = req.params.productId as string;
       const product = await this.productService.getProduct(productId);
 
       const responseResult = {
@@ -92,7 +92,7 @@ export class ProductController {
 
   async updateProduct(req: Request, res: Response) {
     try {
-      const { productId } = req.params;
+      const productId = req.params.productId as string;
       const { name, description, price } = req.body;
 
       const product = await this.productService.updateProduct({
@@ -126,7 +126,7 @@ export class ProductController {
 
   async deleteProduct(req: Request, res: Response) {
     try {
-      const { productId } = req.params;
+      const productId = req.params.productId as string;
 
       await this.productService.deleteProduct(productId);
 

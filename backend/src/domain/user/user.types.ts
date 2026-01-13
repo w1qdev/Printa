@@ -1,6 +1,6 @@
-export type FindUserByEmailParamsTypes = {
+export type FindUserByEmailParamsTypes<T> = {
   email: string;
-  selectRoles?: object;
+  selectRoles?: T;
 };
 
 export type RefreshPasswordParamsTypes = {

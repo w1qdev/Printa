@@ -37,7 +37,7 @@ export class UserController {
 
   async getUserByEmail(req: Request, res: Response) {
     try {
-      const { email } = req.params;
+      const email = req.params.email as string;
 
       const user = await this.userService.findUserByEmail({ email });
 

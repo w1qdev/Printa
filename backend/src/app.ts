@@ -12,9 +12,9 @@ import { config } from "./config/app.config";
 // Middleware (создадим позже)
 // import { errorMiddleware } from './api/middleware/error.middleware.js';
 
-export function createApp(): Express {
-  const app = express();
+export const app = express();
 
+export function createApp(): Express {
   // Security middleware
   app.use(
     helmet({
@@ -31,7 +31,7 @@ export function createApp(): Express {
         includeSubDomains: true,
         preload: true,
       },
-    })
+    }),
   );
 
   // CORS
@@ -41,7 +41,7 @@ export function createApp(): Express {
       credentials: true,
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
-    })
+    }),
   );
 
   // Body parsing

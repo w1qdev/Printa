@@ -1,29 +1,27 @@
-import { FileUploadOptions } from "./file.types";
-import fs from "fs/promises";
+import { FileUploadOptions, FileUploadResult } from "./file.types";
+import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
+import { config } from "../../config/app.config";
 
 export class FileService {
-  private readonly uploadDir = "uploads";
+  private readonly uploadDir = config.fileSystem.uploadDir;
 
   async uploadFiles({
     userId,
-    fileName,
-    fileMimeType,
-    fileSize,
-    fileBuffer,
-  }: FileUploadOptions): Promise<string> {
-    const userDir = path.join(this.uploadDir, userId);
-    await fs.mkdir(userDir, { recursive: true });
+    files,
+  }: FileUploadOptions): Promise<FileUploadResult> {
+    const uploadPath = path.join(this.uploadDir, userId);
 
-    const ext = path.extname(fileName);
-    const nameWithoutExt = path.basename(fileName, ext);
-    const uniqueFilename = `${nameWithoutExt}-${Date.now()}-${uuidv4()}${ext}`;
+    fs.mkdirSync(uploadPath, { recursive: true });
 
-    const filePath = path.join(userDir, uniqueFilename);
+    for (const file of files) {
+      const oldPath = file.path;
+      const newPath = path.join(uploadPath, file.originalname);
 
-    await fs.writeFile(filePath, fileBuffer);
+      fs.renameSync(oldPath, newPath);
+    }
 
-    return path.join(userId, uniqueFilename);
+    return { path: uploadPath };
   }
 }

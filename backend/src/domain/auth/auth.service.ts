@@ -1,7 +1,11 @@
 import { Hasher } from "@/shared/utils/hasher";
 import { prisma } from "../../prisma";
-import { CreateUserParamsTypes } from "./auth.types";
-import { acceptedUserSelectData } from "@/domain/auth/auth.types";
+import {
+  CreateUserParamsTypes,
+  AuthError,
+  RegisterUserResult,
+} from "./auth.types";
+import { acceptedUserSelectData } from "../../shared/constants/acceptedUserSelectData";
 import { UserService } from "../user/user.service";
 import { JWTService } from "@/domain/jwt/jwt.service";
 import { v4 as uuidv4 } from "uuid";
@@ -11,7 +15,9 @@ export class AuthService {
   private userService = new UserService();
   private jwtService = new JWTService();
 
-  async register(userData: CreateUserParamsTypes) {
+  async register(
+    userData: CreateUserParamsTypes,
+  ): Promise<RegisterUserResult | AuthError> {
     const user = await this.userService.findUserByEmail({
       email: userData.email,
       selectRoles: acceptedUserSelectData,
@@ -53,9 +59,7 @@ export class AuthService {
       refreshToken: tokens.refreshToken,
     };
 
-    if (result) {
-      return result;
-    }
+    return result;
   }
 
   async login(email: string, inComePassword: string) {
