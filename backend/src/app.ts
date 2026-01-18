@@ -6,12 +6,6 @@ import helmet from "helmet";
 import apiRouter from "./api/routes/index";
 import { config } from "./config/app.config";
 
-// Routes (создадим позже)
-// import routes from './api/routes/index.js';
-
-// Middleware (создадим позже)
-// import { errorMiddleware } from './api/middleware/error.middleware.js';
-
 export const app = express();
 
 export function createApp(): Express {
@@ -31,7 +25,7 @@ export function createApp(): Express {
         includeSubDomains: true,
         preload: true,
       },
-    }),
+    })
   );
 
   // CORS
@@ -41,7 +35,7 @@ export function createApp(): Express {
       credentials: true,
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
-    }),
+    })
   );
 
   // Body parsing
@@ -59,15 +53,6 @@ export function createApp(): Express {
   app.use("/api", limiter);
   app.use("/api", apiRouter);
 
-  const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 5, // Только 5 попыток входа за 15 минут
-    skipSuccessfulRequests: true,
-  });
-
-  // app.use("/api/auth/login", authLimiter);
-  // app.use("/api/auth/register", authLimiter);
-
   // Compression
   app.use(compression());
 
@@ -80,9 +65,6 @@ export function createApp(): Express {
     });
   });
 
-  // API Routes (подключим позже)
-  // app.use('/api', routes);
-
   // 404 handler
   app.use((req: Request, res: Response) => {
     res.status(404).json({
@@ -90,9 +72,6 @@ export function createApp(): Express {
       message: `Route ${req.method} ${req.path} not found`,
     });
   });
-
-  // Error handling middleware (подключим позже)
-  // app.use(errorMiddleware);
 
   return app;
 }
