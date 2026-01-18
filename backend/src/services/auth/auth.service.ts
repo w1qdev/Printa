@@ -1,14 +1,14 @@
 import { Hasher } from "@/shared/utils/hasher";
+import { JWTService } from "services/jwt/jwt.service";
+import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../../prisma";
-import {
-  CreateUserParamsTypes,
-  AuthError,
-  RegisterUserResult,
-} from "./auth.types";
 import { acceptedUserSelectData } from "../../shared/constants/acceptedUserSelectData";
 import { UserService } from "../user/user.service";
-import { JWTService } from "@/domain/jwt/jwt.service";
-import { v4 as uuidv4 } from "uuid";
+import {
+  AuthError,
+  CreateUserParamsTypes,
+  RegisterUserResult,
+} from "./auth.types";
 
 export class AuthService {
   private hasher = new Hasher();

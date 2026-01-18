@@ -1,6 +1,6 @@
 import { logger } from "@/shared/utils/logger";
 import { Request, Response } from "express";
-import { UserService } from "@/domain/user/user.service";
+import { UserService } from "services/user/user.service";
 
 export class UserController {
   private userService = new UserService();

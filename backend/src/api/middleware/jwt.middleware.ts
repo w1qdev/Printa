@@ -18,6 +18,7 @@ export const jwtMiddleware = (
     if (!decoded) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+    req.user = decoded;
 
     next();
   } catch (error) {

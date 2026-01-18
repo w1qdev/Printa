@@ -1,4 +1,4 @@
-# 3D Print Marketplace - Backend
+# Delivery service for small and medium businesses - Backend
 
 ## Установка
 

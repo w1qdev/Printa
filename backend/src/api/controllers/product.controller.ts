@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
 import { logger } from "@/shared/utils/logger";
-import { ProductService } from "@/domain/product/product.service";
+import { Request, Response } from "express";
+import { ProductService } from "services/product/product.service";
 
 export class ProductController {
   private productService = new ProductService();

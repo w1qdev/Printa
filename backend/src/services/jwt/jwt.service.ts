@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
 import { config } from "@/config/app.config";
-import { GenerateTokenParams } from "@/domain/jwt/jwt.types";
+import jwt from "jsonwebtoken";
+import { GenerateTokenParams } from "services/jwt/jwt.types";
 
 export class JWTService {
   private readonly accessSecret: string = config.jwt.accessSecret as string;
@@ -10,7 +10,7 @@ export class JWTService {
 
   public generateAccessToken({ userId }: GenerateTokenParams): string {
     const token = jwt.sign({ userId: userId }, this.accessSecret, {
-      expiresIn: "7d",
+      expiresIn: this.accessSecretExpiresIn,
     });
 
     return token;

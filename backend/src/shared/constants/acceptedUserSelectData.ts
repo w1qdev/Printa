@@ -1,4 +1,4 @@
-import { AcceptedUserSelectData } from "@/domain/auth/auth.types";
+import { AcceptedUserSelectData } from "services/auth/auth.types";
 
 export const acceptedUserSelectData: AcceptedUserSelectData = {
   id: true,
