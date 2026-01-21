@@ -12,7 +12,7 @@ const registerSchema = z.object({
 export const validateAuthPayload = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const parsed = registerSchema.safeParse(req.body ?? {});
 
