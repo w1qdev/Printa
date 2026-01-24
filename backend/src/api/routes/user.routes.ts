@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import { UserController } from "../controllers/user.controller";
 import { jwtMiddleware } from "../middleware/jwt.middleware";
+import { UserService } from "services/user/user.service";
 
 const router = express.Router();
 
-const userController = new UserController();
+const userController = new UserController(new UserService());
 
 // GET /api/user
 router.get("/", jwtMiddleware, (req: Request, res: Response) =>

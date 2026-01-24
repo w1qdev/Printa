@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import { ProductController } from "../controllers/product.controller";
 import { jwtMiddleware } from "../middleware/jwt.middleware";
+import { ProductService } from "services/product/product.service";
 
 const router = express.Router();
 
-const productController = new ProductController();
+const productController = new ProductController(new ProductService());
 
 // POST /api/product
 router.post("/", jwtMiddleware, (req: Request, res: Response) =>

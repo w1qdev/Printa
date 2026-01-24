@@ -1,9 +1,13 @@
 import { logger } from "@/shared/utils/logger";
 import { Request, Response } from "express";
 import { AuthService } from "services/auth/auth.service";
+import { ResponseService } from "services/response-handler/response.service";
 
 export class AuthController {
-  private authService = new AuthService();
+  constructor(
+    private readonly authService: AuthService,
+    private readonly responseService: ResponseService,
+  ) {}
 
   async register(req: Request, res: Response) {
     try {
@@ -14,11 +18,6 @@ export class AuthController {
         password,
       });
 
-      const responseResult = {
-        status: "ok",
-        data: result,
-      };
-
       if (result && "refreshToken" in result) {
         res.cookie("refreshToken", result.refreshToken, {
           httpOnly: true,
@@ -27,18 +26,13 @@ export class AuthController {
         });
       }
 
-      return res.status(200).json(responseResult);
+      return this.responseService.sendMessageNotification(res, result);
     } catch (err) {
       logger.error("Error with creating a new user", err);
 
-      const responseResult = {
-        status: "error",
-        data: {
-          message: "some internal error",
-        },
-      };
-
-      return res.status(500).json(responseResult);
+      return this.responseService.sendErrorNotification(res, {
+        message: "Some internal error",
+      });
     }
   }
 
@@ -48,23 +42,13 @@ export class AuthController {
 
       const result = await this.authService.login(email, password);
 
-      const responseResult = {
-        status: "ok",
-        data: result,
-      };
-
-      return res.status(200).json(responseResult);
+      return this.responseService.sendMessageNotification(res, result);
     } catch (err) {
       logger.error("Error with user authentication", err);
 
-      const responseResult = {
-        status: "error",
-        data: {
-          message: "some internal error",
-        },
-      };
-
-      return res.status(500).json(responseResult);
+      return this.responseService.sendErrorNotification(res, {
+        message: "Some internal error",
+      });
     }
   }
 }

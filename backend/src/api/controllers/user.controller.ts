@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { UserService } from "services/user/user.service";
 
 export class UserController {
-  private userService = new UserService();
+  constructor(private readonly userService: UserService) {}
 
   async refreshPassword(req: Request, res: Response) {
     try {
