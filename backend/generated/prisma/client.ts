@@ -69,3 +69,8 @@ export type Payment = Prisma.PaymentModel
  * 
  */
 export type Product = Prisma.ProductModel
+/**
+ * Model Note
+ * 
+ */
+export type Note = Prisma.NoteModel
