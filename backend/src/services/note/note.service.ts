@@ -1,3 +1,4 @@
+import { NotFoundError } from "@/shared/utils/errors";
 import { prisma } from "../../prisma";
 import { CreateNotePayload } from "./note.types";
 
@@ -22,7 +23,7 @@ export class NoteService {
     });
 
     if (!note) {
-      return null;
+      throw new NotFoundError("Note not found");
     }
 
     return note;
@@ -35,7 +36,7 @@ export class NoteService {
     });
 
     if (!updatedNote) {
-      return null;
+      throw new NotFoundError("Note not found");
     }
 
     return updatedNote;
@@ -47,7 +48,7 @@ export class NoteService {
     });
 
     if (!deletedNote) {
-      return null;
+      throw new NotFoundError("Note not found");
     }
 
     return deletedNote;

@@ -3,6 +3,7 @@ import cors from "cors";
 import express, { Express, Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import { errorHandler } from "./api/middleware/error.middleware";
 import apiRouter from "./api/routes/index";
 import { config } from "./config/app.config";
 
@@ -25,7 +26,7 @@ export function createApp(): Express {
         includeSubDomains: true,
         preload: true,
       },
-    })
+    }),
   );
 
   // CORS
@@ -35,7 +36,7 @@ export function createApp(): Express {
       credentials: true,
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
-    })
+    }),
   );
 
   // Body parsing
@@ -72,6 +73,8 @@ export function createApp(): Express {
       message: `Route ${req.method} ${req.path} not found`,
     });
   });
+
+  app.use(errorHandler);
 
   return app;
 }
