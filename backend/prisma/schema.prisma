@@ -28,9 +28,10 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  // Связи
   ordersAsCustomer Order[] @relation("CustomerOrders")
   ordersAsExecutor Order[] @relation("ExecutorOrders")
+
+  notes           Note[]
 
   @@map("users")
 }
@@ -151,6 +152,8 @@ model Note {
   id        String   @id @default(uuid())
   title     String
   content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
